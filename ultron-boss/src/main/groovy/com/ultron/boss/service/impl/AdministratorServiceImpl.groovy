@@ -1,15 +1,16 @@
 package com.ultron.boss.service.impl
 
-
 import com.ultron.boss.domain.entity.Administrator
 import com.ultron.boss.domain.vo.AdministratorVO
 import com.ultron.boss.exception.BossBizException
 import com.ultron.boss.mapper.AdministratorMapper
 import com.ultron.boss.service.AdministratorService
-import com.ultron.boss.util.PasswordUtil
 import groovy.transform.CompileStatic
+import org.apache.commons.codec.digest.DigestUtils
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+
 /**
  * Create By yangwei
  * Create at 2020/01/06 11:26
@@ -27,9 +28,18 @@ class AdministratorServiceImpl implements AdministratorService {
         if (adminVO.password != adminVO.passwordConfirm) {
             throw new BossBizException("password not confirmed")
         }
-        byte[] saltKey = PasswordUtil.createSalt()
-        String pwdCom = PasswordUtil.createCredential(adminVO.password, saltKey)
-        adminVO.password = pwdCom
+
+        if(this.exist(adminVO.phone, "phone")) {
+            throw new BossBizException("phone was in used")
+        }
+
+        if(this.exist(adminVO.username, "username")) {
+            throw new BossBizException("username was in used")
+        }
+
+        String saltKey = ObjectId.get().toHexString()
+        String pwdSha256 = DigestUtils.sha256Hex(adminVO.password + saltKey)
+        adminVO.password = pwdSha256
         adminVO.saltKey = saltKey
         administratorMapper.insert(adminVO)
     }
@@ -57,13 +67,22 @@ class AdministratorServiceImpl implements AdministratorService {
     @Override
     void login(String phone, String password) {
         Administrator admin = administratorMapper.findByPhone(phone)
-        if(!admin) {
+        if (!admin) {
             throw new BossBizException("Admin not found")
         }
 
-        String passwordGen = PasswordUtil.createCredential(password, admin.saltKey.bytes)
-        if(password != passwordGen) {
+        String passwordGen = DigestUtils.sha256Hex(password + admin.saltKey)
+        if (password != passwordGen) {
             throw new BossBizException("Invalid password")
+        }
+    }
+
+    @Override
+    boolean exist(String value, String type) {
+        if (type == 'username') {
+            return administratorMapper.usernameExist(value) > 0
+        } else {
+            return administratorMapper.phoneExist(value) > 0
         }
     }
 }

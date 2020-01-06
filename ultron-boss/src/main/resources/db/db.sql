@@ -2,15 +2,15 @@ CREATE DATABASE IF NOT EXISTS ultron DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_gen
 
 CREATE TABLE `administrator` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `username` VARCHAR(20) NOT NULL,
+    `username` VARCHAR(20) NOT NULL UNIQUE,
     `email` varchar(50) NULL,
-    `phone` varchar(15) NOT NULL,
-    `password` varchar (50) NOT NULL,
+    `phone` varchar(15) NOT NULL UNIQUE,
+    `password` varchar (100) NOT NULL,
     `salt_key` varchar(50) NOT NULL,
     `enabled` tinyint(1) not null default 0,
     `create_time` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `create_user` varchar(20)
-);
+ );
 
 CREATE TABLE `user` (
 	`id` BIGINT PRIMARY KEY AUTO_INCREMENT,

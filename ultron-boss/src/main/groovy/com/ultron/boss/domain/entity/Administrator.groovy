@@ -22,9 +22,11 @@ class Administrator {
 
     String password
 
+    String createUser
+
     Timestamp createTime
 
-    boolean status
+    boolean enabled
 
     String saltKey
 

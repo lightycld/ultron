@@ -14,5 +14,6 @@ class BossBizException extends RuntimeException {
 
     BossBizException (String message) {
         super(message)
+        this.message = message
     }
 }

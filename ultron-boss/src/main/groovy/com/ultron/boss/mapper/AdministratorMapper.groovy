@@ -14,11 +14,11 @@ interface AdministratorMapper {
 
     @Options(useGeneratedKeys = true, keyColumn = "id")
     @Insert('''INSERT INTO `administrator` (`username`, 
-                `email`, `password`, `phone`, `slat_key`, `create_user`
+                `email`, `password`, `phone`, `salt_key`, `create_user`
                 ) VALUES (
                     #{admin.username}, #{admin.email},
                      #{admin.password}, #{admin.phone}, 
-                     #{admin.slatKey}, #{admin.createUser})''')
+                     #{admin.saltKey}, #{admin.createUser})''')
     void insert(@Param("admin") Administrator administrator)
 
     @Update("UPDATE `administrator` SET `password` = #{password} WHERE `id` = #{id}")
@@ -37,4 +37,9 @@ interface AdministratorMapper {
     @Select('''SELECT * FROM `administrator` WHERE `phone` = #{phone}''')
     Administrator findByPhone(@Param("phone") String phone)
 
+    @Select('''SELECT count(*) FROM `administrator` WHERE `username` = #{username}''')
+    int usernameExist(@Param("username") String username)
+
+    @Select('''SELECT count(*) FROM `administrator` WHERE `phone` = #{phone}''')
+    int phoneExist(@Param("phone") String phone)
 }

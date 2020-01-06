@@ -24,4 +24,6 @@ interface AdministratorService {
     void update(Administrator administrator)
 
     void login(String phone, String password)
+
+    boolean exist(String value, String type)
 }
