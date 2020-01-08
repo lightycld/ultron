@@ -33,4 +33,8 @@ class AreaHolder {
     static String getByCode(String code) {
         return areaMap.get(code)
     }
+
+    static String contains(String code) {
+        return areaMap.containsKey(code)
+    }
 }

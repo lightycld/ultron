@@ -11,15 +11,13 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class CreditInfo {
 
-    String province
-
-    String city
-
-    String district
+    String area
 
     int age
 
     SexEnum sex
 
-    String birthday
+    Date birthday
+
+    boolean valid
 }

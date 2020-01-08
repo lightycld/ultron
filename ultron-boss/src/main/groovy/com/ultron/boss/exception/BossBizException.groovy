@@ -12,7 +12,9 @@ class BossBizException extends RuntimeException {
 
     String message
 
-    BossBizException (String message) {
+    BossBizException() {}
+
+    BossBizException(String message) {
         super(message)
         this.message = message
     }
