@@ -68,7 +68,7 @@ class CreditUtil {
                 birthday: birthDate,
                 age: getAgeByBirth(birthDate),
                 sex: Integer.parseInt(seqNo) % 2 == 1 ? SexEnum.MALE : SexEnum.FEMALE,
-                valid: verifyId18(creditNo)
+                verified: verifyId18(creditNo)
         )
     }
 

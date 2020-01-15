@@ -17,23 +17,13 @@ CREATE TABLE `user` (
 	`username` VARCHAR (20) NOT NULL,
 	`credit_no` VARCHAR (18) NOT NULL COMMENT '二代身份证号码',
 	`we_chat_id` varchar(30) NULL COMMENT '微信号',
-	`email` varchar(50) NULL,
-	`phone` VARCHAR (14) NOT NULL,
-	`verified` tinyint(1) NOT NULL DEFAULT false comment '是否已认证',
-	`create_user` VARCHAR(20) NOT NULL,
-	`create_time` TIMESTAMP (3) NOT NULL DEFAULT CURRENT_TIMESTAMP (3)
-) COMMENT '用户表';
-
-CREATE TABLE `user_info` (
-	`id` BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
-	`user_id` BIGINT(20) NOT NULL,
-	`username` VARCHAR(20) NOT NULL,
-	`we_chat_id` varchar(30) NULL COMMENT '微信号',
 	`phone` varchar(14) not null,
 	`email` varchar(50) null,
 	`area` VARCHAR(20) NOT NULL COMMENT '地区',
 	`birthday` VARCHAR(10) NOT NULL,
 	`sex` TINYINT(1) NOT NULL,
+    `credit_verified` TINYINT(1) NOT NULL DEFAULT FALSE COMMENT '身份证号是否合法',
+	`verified` tinyint(1) NOT NULL DEFAULT false comment '是否已认证',
 	`create_user` VARCHAR(20) NOT NULL,
-	`create_time` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
-) COMMENT '用户信息';
+	`create_time` TIMESTAMP (3) NOT NULL DEFAULT CURRENT_TIMESTAMP (3)
+) COMMENT '用户表';

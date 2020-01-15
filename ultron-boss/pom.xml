@@ -70,6 +70,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>ultron-boss</finalName>
         <sourceDirectory>src/main/groovy</sourceDirectory>
         <plugins>
             <plugin>

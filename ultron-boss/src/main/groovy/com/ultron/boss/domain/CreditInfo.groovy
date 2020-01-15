@@ -19,5 +19,5 @@ class CreditInfo {
 
     Date birthday
 
-    boolean valid
+    boolean verified
 }
