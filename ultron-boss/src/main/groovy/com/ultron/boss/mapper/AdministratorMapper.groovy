@@ -42,4 +42,7 @@ interface AdministratorMapper {
 
     @Select('''SELECT count(*) FROM `administrator` WHERE `phone` = #{phone}''')
     int phoneExist(@Param("phone") String phone)
+
+    @Select('''SELECT count(*) FROM `administrator` WHERE `email` = #{email}''')
+    int emailExist(@Param("email") String email)
 }

@@ -1,7 +1,9 @@
 package com.ultron.boss.service.impl
 
+import com.ultron.boss.config.ContextEnv
 import com.ultron.boss.domain.entity.Administrator
 import com.ultron.boss.domain.vo.AdministratorVO
+import com.ultron.boss.enums.AdminUniqueEnum
 import com.ultron.boss.exception.BossBizException
 import com.ultron.boss.mapper.AdministratorMapper
 import com.ultron.boss.service.AdministratorService
@@ -29,11 +31,11 @@ class AdministratorServiceImpl implements AdministratorService {
             throw new BossBizException("password not confirmed")
         }
 
-        if(this.exist(adminVO.phone, "phone")) {
+        if (this.exist(adminVO.phone, AdminUniqueEnum.PHONE)) {
             throw new BossBizException("phone was in used")
         }
 
-        if(this.exist(adminVO.username, "username")) {
+        if (this.exist(adminVO.username, AdminUniqueEnum.USERNAME)) {
             throw new BossBizException("username was in used")
         }
 
@@ -41,6 +43,8 @@ class AdministratorServiceImpl implements AdministratorService {
         String pwdSha256 = DigestUtils.sha256Hex(adminVO.password + saltKey)
         adminVO.password = pwdSha256
         adminVO.saltKey = saltKey
+        adminVO.setCreateUser(ContextEnv.getAdminName())
+        adminVO.setEnabled(true)
         administratorMapper.insert(adminVO)
     }
 
@@ -78,9 +82,11 @@ class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    boolean exist(String value, String type) {
-        if (type == 'username') {
+    boolean exist(String value, AdminUniqueEnum type) {
+        if (type == AdminUniqueEnum.USERNAME) {
             return administratorMapper.usernameExist(value) > 0
+        } else if (type == AdminUniqueEnum.EMAIL) {
+            return administratorMapper.emailExist(value) > 0
         } else {
             return administratorMapper.phoneExist(value) > 0
         }

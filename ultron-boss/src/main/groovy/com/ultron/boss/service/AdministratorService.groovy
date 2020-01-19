@@ -3,6 +3,7 @@ package com.ultron.boss.service
 
 import com.ultron.boss.domain.entity.Administrator
 import com.ultron.boss.domain.vo.AdministratorVO
+import com.ultron.boss.enums.AdminUniqueEnum
 import groovy.transform.CompileStatic
 /**
  * Create By yangwei
@@ -25,5 +26,5 @@ interface AdministratorService {
 
     void login(String phone, String password)
 
-    boolean exist(String value, String type)
+    boolean exist(String value, AdminUniqueEnum type)
 }
