@@ -1,5 +1,6 @@
 package com.ultron.boss.domain.entity
 
+import com.ultron.boss.domain.vo.Admin
 import groovy.transform.CompileStatic
 
 import java.sql.Timestamp
@@ -29,5 +30,9 @@ class Administrator {
     boolean enabled
 
     String saltKey
+
+    Admin toAdminVO() {
+        return new Admin(id: id, username: username, phone: phone, email: email)
+    }
 
 }

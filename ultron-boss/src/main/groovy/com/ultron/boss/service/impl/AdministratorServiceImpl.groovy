@@ -2,6 +2,7 @@ package com.ultron.boss.service.impl
 
 import com.ultron.boss.config.ContextEnv
 import com.ultron.boss.domain.entity.Administrator
+import com.ultron.boss.domain.vo.Admin
 import com.ultron.boss.domain.vo.AdministratorVO
 import com.ultron.boss.enums.AdminUniqueEnum
 import com.ultron.boss.exception.BossBizException
@@ -12,7 +13,6 @@ import org.apache.commons.codec.digest.DigestUtils
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-
 /**
  * Create By yangwei
  * Create at 2020/01/06 11:26
@@ -69,7 +69,7 @@ class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    void login(String phone, String password) {
+    Admin login(String phone, String password) {
         Administrator admin = administratorMapper.findByPhone(phone)
         if (!admin) {
             throw new BossBizException("Admin not found")
@@ -77,8 +77,10 @@ class AdministratorServiceImpl implements AdministratorService {
 
         String passwordGen = DigestUtils.sha256Hex(password + admin.saltKey)
         if (password != passwordGen) {
-            throw new BossBizException("Invalid password")
+            throw new BossBizException("Wrong password")
         }
+
+        return admin.toAdminVO()
     }
 
     @Override
